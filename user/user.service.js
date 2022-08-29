@@ -54,9 +54,9 @@ export class Service {
         //send jwt tokens to client
         return { accessToken, refreshToken };
     }
-    async login(req, res, next) {
+    async login(body) {
         //validate input
-        const result = await loginSchema.validateAsync(req.body);
+        const result = await loginSchema.validateAsync(body);
         //check if email exists
         const user = await User.findOne({ email: result.email });
         if (!user) throw new Error('NotFound');
@@ -97,7 +97,7 @@ export class Service {
         client.DEL(userId, (error, val) => {
             if (error) throw new Error('InternalServerError');
         });
-        return true;
+        // return true;
     }
     async forgotPassword(header) {
         //get logged in user

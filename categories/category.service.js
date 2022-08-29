@@ -4,7 +4,7 @@ import user from '../../models/user.js';
 import { getUser } from '../../utils/getUser.js';
 import Note from '../../models/notes.js';
 
-export class Services {
+export class Service {
     constructor() {}
 
     async deleteCategory(params, header) {
