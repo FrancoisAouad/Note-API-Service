@@ -1,12 +1,12 @@
 import express from 'express';
-import { verifyAccessToken } from '../lib/auth/jwtVerify.js';
+import { verifyAccessToken } from '../lib/jwt/jwtVerify.js';
 import categoryService from './category.service.js';
-import { isEmailVerified } from '../middleware/secure/isUserVerified.js';
-import { isCategoryPermitted } from '../middleware/secure/isPermitted.js';
+import { isEmailVerified } from '../middleware/isUserVerified.js';
+import { isCategoryPermitted } from '../middleware/isPermitted.js';
 
 const CategoryService = new categoryService();
 
-export class Controller {
+class Controller {
     constructor() {
         this.path = '/category';
         this.router = express.Router();
@@ -101,3 +101,4 @@ export class Controller {
         );
     }
 }
+export default Controller;

@@ -4,7 +4,7 @@ import express from 'express';
 import userService from './user.service.js';
 
 const UserService = new userService();
-export class Controller {
+class Controller {
     constructor() {
         this.path = '/auth';
         this.router = express.Router();
@@ -115,3 +115,4 @@ export class Controller {
         );
     }
 }
+export default Controller;

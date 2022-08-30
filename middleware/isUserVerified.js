@@ -1,11 +1,13 @@
-import User from '../../models/user.js';
-import { getUser } from '../../utils/getUser.js';
+import User from '../user/user.model.js';
+// import { getUser } from '../../utils/getUser.js';
+import globalService from '../utils/globalService.js';
+const GlobalService = new globalService();
 
 export const isEmailVerified = async (req, res, next) => {
     try {
         //get access token from headers
         const authHeader = req.headers['authorization'];
-        const id = getUser(authHeader);
+        const id = GlobalService.getUser(authHeader);
 
         const user = await User.findOne({ _id: id });
 

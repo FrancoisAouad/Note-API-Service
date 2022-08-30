@@ -5,7 +5,7 @@ import { isEmailVerified } from '../middleware/isUserVerified.js';
 import noteServices from './notes.service.js';
 const NotesServices = new noteServices();
 
-export class Controller {
+class Controller {
     constructor() {
         this.path = '/notes';
         this.router = express.Router();
@@ -121,3 +121,4 @@ export class Controller {
         );
     }
 }
+export default Controller;

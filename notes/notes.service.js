@@ -1,21 +1,21 @@
-import Notes from '../../models/notes.js';
+import Notes from './notes.model.js';
 import path from 'path';
-import user from '../../models/user.js';
-import categories from '../../models/category.js';
-import tagModel from '../../models/tags.js';
-import { getUser } from '../../utils/getUser.js';
-import { noteSchema } from '../../middleware/validation/notesValidation.js';
+import user from '../user/user.model.js';
+import categories from '../categories/category.model.js';
+import tagModel from './tags.model.js';
+// import { getUser } from '../../utils/getUser.js';
+import { noteSchema } from './notes.validation.js';
 import mongoose from 'mongoose';
 import globalServices from '../utils/globalService.js';
 
 const GlobalServices = new globalServices();
 
-export class Service {
+class Service {
     constructor() {}
 
     async createNote(body, files, header) {
         // const authHeader = req.headers['authorization'];
-        const id = getUser(header);
+        const id = GlobalServices.getUser(header);
         //check is note exists with creator id and noteid
         const UserInfo = await user.findOne({ _id: id });
         const __dirname = path.resolve();
@@ -53,7 +53,7 @@ export class Service {
         return newNote;
     }
     async getNoteById(params, header) {
-        const id = getUser(header);
+        const id = GlobalServices.getUser(header);
         const note = await Notes.find({
             creatorID: id,
             _id: params.noteId,
@@ -68,7 +68,7 @@ export class Service {
     }
     async getNotes(header, body, query) {
         // const authHeader = req.headers['authorization'];
-        const id = getUser(header);
+        const id = GlobalServices.getUser(header);
         // let sort = query.Sort;
         //get objectId of user
         // const loguser = await user.findOne({ _id: id });
@@ -224,7 +224,7 @@ export class Service {
     }
     async editNote(header, body, params) {
         // const authHeader = req.headers['authorization'];
-        const id = getUser(header);
+        const id = GlobalServices.getUser(header);
         // const noteId = req.params.noteId;
         //check is note exists with creator id and noteid
         const exists = await Notes.find({
@@ -253,3 +253,5 @@ export class Service {
         );
     }
 }
+
+export default Service;
