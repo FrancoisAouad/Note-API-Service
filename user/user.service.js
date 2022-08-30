@@ -16,11 +16,7 @@ import {
     setRefreshToken,
     setResetPasswordToken,
 } from '../lib/jwt/jwtConfig.js';
-// import { setResetPasswordToken } from '../jwt/configJWT.js';
-// import { verifyResetPasswordToken } from '../jwt/verifyJWT.js';
 import bcrypt from 'bcrypt';
-// import nodemailer from '../../utils/nodemailer.js';
-// import { getUser } from '../../utils/getUser.js';
 import globalService from '../utils/globalService.js';
 const GlobalService = new globalService();
 class Service {

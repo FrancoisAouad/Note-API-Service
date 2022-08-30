@@ -1,7 +1,6 @@
 import Notes from '../notes/notes.model.js';
 import path from 'path';
 import createError from 'http-errors';
-// import Notes from '../models/notes.js';
 import tagModel from '../notes/tags.model.js';
 import jwt from 'jsonwebtoken';
 

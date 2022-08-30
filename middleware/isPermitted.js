@@ -1,8 +1,8 @@
 import User from '../user/user.model.js';
 import Notes from '../notes/notes.model.js';
 import Category from '../categories/category.model.js';
-// import { getUser } from '../..';
 import globalService from '../utils/globalService.js';
+
 const GlobalService = new globalService();
 export const isCategoryPermitted = async (req, res, next) => {
     try {
