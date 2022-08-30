@@ -16,11 +16,11 @@ import fileUpload from 'express-fileupload';
 dotenv.config();
 import 'colors';
 
-export class App {
+class App {
     constructor(controllers) {
         this.app = express();
         this.initializeMiddlewares();
-        this.initializeControllers(controllers);
+        // this.initializeControllers(controllers);
         this.initializeErrorHandling();
     }
 
@@ -45,17 +45,18 @@ export class App {
         );
     }
 
-    initializeControllers(controllers) {
-        controllers.array.forEach((controller) => {
-            this.app.use('/api/v1', controller.router);
-        });
-    }
+    // initializeControllers(controllers) {
+    //     controllers.array.forEach((controller) => {
+    //         this.app.use('/api/v1', controller.router);
+    //     });
+    // }
 
     initializeErrorHandling() {
         this.app.use(sendError);
         this.app.use(errorHandler);
     }
 }
+export default App;
 
 // app.use('/api/v1/auth', authRoutes);
 // app.use('/api/v1', noteRoutes);

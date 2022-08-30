@@ -1,12 +1,13 @@
-import User from '../../models/user.js';
-import Notes from '../../models/notes.js';
-import Category from '../../models/category.js';
-import { getUser } from '../../utils/getUser.js';
-
+import User from '../user/user.model.js';
+import Notes from '../notes/notes.model.js';
+import Category from '../categories/category.model.js';
+// import { getUser } from '../..';
+import globalService from '../utils/globalService.js';
+const GlobalService = new globalService();
 export const isCategoryPermitted = async (req, res, next) => {
     try {
         const authHeader = req.headers['authorization'];
-        const id = getUser(authHeader);
+        const id = GlobalService.getUser(authHeader);
         //check if user exists
         const user = await User.findOne({ _id: id });
         if (!user) return res.status(404);
@@ -49,7 +50,7 @@ export const isCategoryPermitted = async (req, res, next) => {
 export const isNotePermitted = async (req, res, next) => {
     try {
         const authHeader = req.headers['authorization'];
-        const id = getUser(authHeader);
+        const id = GlobalService.getUser(authHeader);
         //check if user exists
         const user = await User.findOne({ _id: id });
         if (!user)

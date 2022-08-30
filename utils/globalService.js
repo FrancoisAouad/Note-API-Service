@@ -1,11 +1,11 @@
-import Notes from '../../models/notes.js';
+import Notes from '../notes/notes.model.js';
 import path from 'path';
 import createError from 'http-errors';
-import Notes from '../models/notes.js';
-import tagModel from '../models/tags.js';
+// import Notes from '../models/notes.js';
+import tagModel from '../notes/tags.model.js';
 import jwt from 'jsonwebtoken';
 
-export class Service {
+class Service {
     constructor() {}
 
     async addTags(tags, newNote, UserInfo) {
@@ -112,81 +112,81 @@ export class Service {
     async deleteImage() {}
     async deleteFile() {}
 }
+export default Service;
+// export const editNote = async (req, res, next) => {
+//     try {
+//         const authHeader = req.headers['authorization'];
+//         const id = getUser(authHeader);
+//         const noteId = req.params.noteId;
+//         //check is note exists with creator id and noteid
+//         const exists = await Notes.find({
+//             creatorID: id,
+//             _id: req.params.noteId,
+//         });
+//         if (!exists) {
+//             return res.status(404).json({
+//                 success: false,
+//                 error: 'Not Found',
+//                 message: 'Note not found..',
+//             });
+//         }
+//         //set dirname variable
+//         const __dirname = path.resolve();
+//         //validate user input
+//         const { title, content, tags, category } =
+//             await noteSchema.validateAsync(req.body);
+//         //update note with new input
+//         await Notes.updateOne(
+//             {
+//                 _id: req.params.noteId,
+//             },
+//             {
+//                 $set: {
+//                     title: title,
+//                     content: content,
+//                     tags: tags,
+//                     category: category,
+//                     updatedDate: Date.now(),
+//                 },
+//             }
+//         );
 
-export const editNote = async (req, res, next) => {
-    try {
-        const authHeader = req.headers['authorization'];
-        const id = getUser(authHeader);
-        const noteId = req.params.noteId;
-        //check is note exists with creator id and noteid
-        const exists = await Notes.find({
-            creatorID: id,
-            _id: req.params.noteId,
-        });
-        if (!exists) {
-            return res.status(404).json({
-                success: false,
-                error: 'Not Found',
-                message: 'Note not found..',
-            });
-        }
-        //set dirname variable
-        const __dirname = path.resolve();
-        //validate user input
-        const { title, content, tags, category } =
-            await noteSchema.validateAsync(req.body);
-        //update note with new input
-        await Notes.updateOne(
-            {
-                _id: req.params.noteId,
-            },
-            {
-                $set: {
-                    title: title,
-                    content: content,
-                    tags: tags,
-                    category: category,
-                    updatedDate: Date.now(),
-                },
-            }
-        );
+//         //set file and image variable by using chainning
+//         const image = req?.files?.image;
+//         const file = req?.files?.file;
+//         //-------------No Image AND File------------------//
+//         if (image == (undefined || null) && file != (undefined || null)) {
+//             updateFile(file, __dirname, noteId);
+//             return res.status(200).json({
+//                 success: true,
+//                 message: 'Note Updated!',
+//             });
+//         }
+//         //-------------Image AND No File------------------//
+//         if (image != (undefined || null) && file == (undefined || null)) {
+//             updateImage(image, __dirname, noteId);
+//             return res.status(200).json({
+//                 success: true,
+//                 message: 'Note Updated!',
+//             });
+//         }
+//         //-------------Image AND File exists------------------//
+//         if (image != (undefined || null) && file != (undefined || null)) {
+//             updateImageFile(image, file, __dirname, noteId);
 
-        //set file and image variable by using chainning
-        const image = req?.files?.image;
-        const file = req?.files?.file;
-        //-------------No Image AND File------------------//
-        if (image == (undefined || null) && file != (undefined || null)) {
-            updateFile(file, __dirname, noteId);
-            return res.status(200).json({
-                success: true,
-                message: 'Note Updated!',
-            });
-        }
-        //-------------Image AND No File------------------//
-        if (image != (undefined || null) && file == (undefined || null)) {
-            updateImage(image, __dirname, noteId);
-            return res.status(200).json({
-                success: true,
-                message: 'Note Updated!',
-            });
-        }
-        //-------------Image AND File exists------------------//
-        if (image != (undefined || null) && file != (undefined || null)) {
-            updateImageFile(image, file, __dirname, noteId);
-
-            return res.status(200).json({
-                success: true,
-                message: 'Note updated!',
-            });
-        }
-        //-------------No Image AND No File------------------//
-        if (!(req.files && req.files.image) && !(req.files && req.files.file)) {
-            return res.status(200).json({
-                success: true,
-                message: 'Note Updated!',
-            });
-        }
-    } catch (e) {
-        next(e);
-    }
-};
+//             return res.status(200).json({
+//                 success: true,
+//                 message: 'Note updated!',
+//             });
+//         }
+//         //-------------No Image AND No File------------------//
+//         if (!(req.files && req.files.image) && !(req.files && req.files.file)) {
+//             return res.status(200).json({
+//                 success: true,
+//                 message: 'Note Updated!',
+//             });
+//         }
+//     } catch (e) {
+//         next(e);
+//     }
+// };

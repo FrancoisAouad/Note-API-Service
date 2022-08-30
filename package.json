@@ -6,8 +6,10 @@
     "type": "module",
     "scripts": {
         "start": "nodemon app.js",
+        "dev": "nodemon server.js",
         "gen-tokens": "node ./utils/genToken.js",
-        "install-dev": "npm i"
+        "install-dev": "npm i",
+        "redis": "redis-server"
     },
     "author": "Francois J. Aouad",
     "license": "ISC",

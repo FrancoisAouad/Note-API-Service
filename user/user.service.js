@@ -1,22 +1,29 @@
 import crypto from 'crypto';
-import User from '../../models/user.js';
-import nodemailer from '../../utils/nodemailer.js';
-import client from '../../config/redisCon.js';
-import { verifyRefreshToken } from '../jwt/verifyJWT.js';
+import User from './user.model.js';
+import nodemailer from '../utils/nodemailer.js';
+import client from '../lib/db/redisCon.js';
+import {
+    verifyRefreshToken,
+    verifyResetPasswordToken,
+} from '../lib/jwt/jwtVerify.js';
 import {
     loginSchema,
     signupSchema,
-} from '../../middleware/validation/userValidation.js';
-import { setAccessToken, setRefreshToken } from '../jwt/configJWT.js';
-import User from '../../models/user.js';
-import { resetPassSchema } from '../../middleware/validation/userValidation.js';
-import { setResetPasswordToken } from '../jwt/configJWT.js';
-import { verifyResetPasswordToken } from '../jwt/verifyJWT.js';
+    resetPassSchema,
+} from './user.validation.js';
+import {
+    setAccessToken,
+    setRefreshToken,
+    setResetPasswordToken,
+} from '../lib/jwt/jwtConfig.js';
+// import { setResetPasswordToken } from '../jwt/configJWT.js';
+// import { verifyResetPasswordToken } from '../jwt/verifyJWT.js';
 import bcrypt from 'bcrypt';
-import nodemailer from '../../utils/nodemailer.js';
-import { getUser } from '../../utils/getUser.js';
-
-export class Service {
+// import nodemailer from '../../utils/nodemailer.js';
+// import { getUser } from '../../utils/getUser.js';
+import globalService from '../utils/globalService.js';
+const GlobalService = new globalService();
+class Service {
     constructor() {}
 
     async register(body) {
@@ -102,7 +109,7 @@ export class Service {
     async forgotPassword(header) {
         //get logged in user
         // const authHeader = req.headers['authorization'];
-        const id = getUser(header);
+        const id = GlobalService.getUser(header);
         //check if user exists
         const user = await User.findOne({ _id: id });
         //return error if user not found
@@ -131,7 +138,7 @@ export class Service {
         const result = await resetPassSchema.validateAsync(body);
         //get user id
         // const authHeader = req.headers['authorization'];
-        const id = getUser(header);
+        const id = GlobalService.getUser(header);
         //check if user found
         const user = await User.findOne({ _id: id });
         if (!user) throw new Error('user not found..');
@@ -157,3 +164,4 @@ export class Service {
         return await user.save();
     }
 }
+export default Service;

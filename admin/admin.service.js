@@ -1,8 +1,8 @@
-import Notes from '../../models/notes.js';
-import categories from '../../models/category.js';
-import tagModel from '../../models/tags.js';
+import Notes from '../notes/notes.model.js';
+import categories from '../categories/category.model.js';
+import tagModel from '../notes/tags.model.js';
 
-export class Service {
+class Service {
     constructor() {}
 
     //GET NOTES BY CATEGORY
@@ -231,3 +231,4 @@ export class Service {
         return await Notes.aggregate(pipeline);
     }
 }
+export default Service;

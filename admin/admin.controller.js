@@ -1,7 +1,7 @@
 import express from 'express';
-import AdminService from './admin.service';
-const adminService = new AdminService();
-export class Controller {
+import adminService from './admin.service.js';
+const AdminService = new adminService();
+class Controller {
     constructor() {
         this.path = '/admin';
         this.router = express.Router();
@@ -10,7 +10,7 @@ export class Controller {
 
     async getListOfUsers(req, res, next) {
         try {
-            const result = await adminService.getListOfUsers(req.body);
+            const result = await AdminService.getListOfUsers(req.body);
             res.status(200).json({ data: result });
         } catch (e) {
             next(e);
@@ -18,7 +18,7 @@ export class Controller {
     }
     async getNotesByCategory(req, res, next) {
         try {
-            const result = await adminService.getListOfUsers();
+            const result = await AdminService.getListOfUsers();
             res.status(200).json({ data: result });
         } catch (e) {
             next(e);
@@ -26,7 +26,7 @@ export class Controller {
     }
     async getNotesCreated(req, res, next) {
         try {
-            const result = await adminService.getNotesCreated();
+            const result = await AdminService.getNotesCreated();
             res.status(200).json({ data: result });
         } catch (e) {
             next(e);
@@ -34,7 +34,7 @@ export class Controller {
     }
     async getNotesByTags(req, res, next) {
         try {
-            const result = await adminService.getNotesByTags(req.query);
+            const result = await AdminService.getNotesByTags(req.query);
             res.status(200).json({ data: result });
         } catch (e) {
             next(e);
@@ -51,3 +51,4 @@ export class Controller {
         this.router.get(`${this.path}/notesbytags`, this.getNotesByTags);
     }
 }
+export default Controller;

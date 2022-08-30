@@ -1,17 +1,17 @@
-import Category from '../../models/category.js';
-import { categorySchema } from '../../middleware/validation/categoryValidation.js';
-import user from '../../models/user.js';
-import { getUser } from '../../utils/getUser.js';
-import Note from '../../models/notes.js';
-
-export class Service {
+import Category from './category.model.js';
+import { categorySchema } from './category.validation.js';
+import user from '../user/user.model.js';
+import Note from '../notes/notes.model.js';
+import globalService from '../utils/globalService.js';
+const GlobalService = new globalService();
+class Service {
     constructor() {}
 
     async deleteCategory(params, header) {
         // const categoryID = params.categoryId;
         //get logged in user
         // const authHeader = req.headers['authorization'];
-        const id = getUser(header);
+        const id = GlobalService.getUser(header);
         //check if category exists
         const category = await Category.find({
             creatorID: id,
@@ -58,7 +58,7 @@ export class Service {
     }
     async addCategory(header, body) {
         // const authHeader = req.headers['authorization'];
-        const id = getUser(header);
+        const id = GlobalService.getUser(header);
         //validate input
         const { categoryName } = await categorySchema.validateAsync(body);
         const category = await Category.findOne({
@@ -80,7 +80,7 @@ export class Service {
         return await categ.save();
     }
     async getCategories(header) {
-        const id = getUser(header);
+        const id = GlobalService.getUser(header);
         return await Category.find({ creatorID: id }).sort({
             updatedDate: -1,
         });
@@ -94,3 +94,5 @@ export class Service {
         });
     }
 }
+
+export default Service;
