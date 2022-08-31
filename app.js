@@ -4,12 +4,6 @@ import cors from 'cors';
 import path from 'path';
 import bodyParser from 'body-parser';
 import corsConfig from './config/corsConfig.js';
-// import authRoutes from './routes/auth.js';
-// import noteRoutes from './routes/notes.js';
-// import adminRoutes from './routes/admin.js';
-// import categoryRoutes from './routes/category.js';
-// import './config/mongoCon.js';
-// import './config/redisCon.js';
 import * as dotenv from 'dotenv';
 import { errorHandler, sendError } from './utils/errors/errorHandlers.js';
 import fileUpload from 'express-fileupload';
@@ -20,7 +14,7 @@ class App {
     constructor(controllers) {
         this.app = express();
         this.initializeMiddlewares();
-        // this.initializeControllers(controllers);
+        this.initializeControllers(controllers);
         this.initializeErrorHandling();
     }
 
@@ -45,11 +39,11 @@ class App {
         );
     }
 
-    // initializeControllers(controllers) {
-    //     controllers.array.forEach((controller) => {
-    //         this.app.use('/api/v1', controller.router);
-    //     });
-    // }
+    initializeControllers(controllers) {
+        controllers.forEach((controller) => {
+            this.app.use('/api/v1', controller.router);
+        });
+    }
 
     initializeErrorHandling() {
         this.app.use(sendError);
@@ -57,8 +51,3 @@ class App {
     }
 }
 export default App;
-
-// app.use('/api/v1/auth', authRoutes);
-// app.use('/api/v1', noteRoutes);
-// app.use('/api/v1', categoryRoutes);
-// app.use('/api/v1/admin', adminRoutes);

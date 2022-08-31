@@ -3,7 +3,6 @@ import path from 'path';
 import user from '../user/user.model.js';
 import categories from '../categories/category.model.js';
 import tagModel from './tags.model.js';
-// import { getUser } from '../../utils/getUser.js';
 import { noteSchema } from './notes.validation.js';
 import mongoose from 'mongoose';
 import globalServices from '../utils/globalService.js';

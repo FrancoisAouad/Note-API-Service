@@ -1,5 +1,4 @@
 import User from '../user/user.model.js';
-// import { getUser } from '../../utils/getUser.js';
 import globalService from '../utils/globalService.js';
 const GlobalService = new globalService();
 

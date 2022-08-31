@@ -10,16 +10,17 @@ class Controller {
 
     async getListOfUsers(req, res, next) {
         try {
-            const result = await AdminService.getListOfUsers(req.body);
-            res.status(200).json({ data: result });
+            const result = await AdminService.getListOfUsers(req.body.name);
+            res.status(200).json({ success: true, data: result });
         } catch (e) {
             next(e);
         }
     }
+    //WORKING-----------------------
     async getNotesByCategory(req, res, next) {
         try {
-            const result = await AdminService.getListOfUsers();
-            res.status(200).json({ data: result });
+            const result = await AdminService.getNotesByCategory();
+            res.status(200).json({ success: true, data: result });
         } catch (e) {
             next(e);
         }

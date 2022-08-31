@@ -13,7 +13,7 @@ class Controller {
 
     async register(req, res, next) {
         try {
-            const result = await UserService.register(req.body);
+            const result = await UserService.register(req.body, req.headers);
             res.status(201).json({ data: result });
         } catch (e) {
             if (e.isJoi === true) e.status = 422;
@@ -31,7 +31,10 @@ class Controller {
     }
     async refreshToken(req, res, next) {
         try {
-            const result = await UserService.refreshToken(req.body);
+            console.log(req.body.refreshToken);
+            const result = await UserService.refreshToken(
+                req.body.refreshToken
+            );
             res.status(200).json({ data: result });
         } catch (error) {
             next(error);
