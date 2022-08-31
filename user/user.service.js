@@ -22,7 +22,7 @@ const GlobalService = new globalService();
 class Service {
     constructor() {}
 
-    async register(body) {
+    async register(body, header) {
         //validate user input
         const result = await signupSchema.validateAsync(body);
         //genarate encrypted email token to be used for account activation
@@ -52,7 +52,7 @@ class Service {
           <br/>
          <p>In order to confirm your email, kindly click the verification link below.</p>
           <br/>
-        <a href="http://${req.headers.host}/api/v1/auth/verify?token=${user.emailToken}">Click here to verify</a>`,
+        <a href="http://${header.host}/api/v1/auth/verify?token=${user.emailToken}">Click here to verify</a>`,
         });
         //send jwt tokens to client
         return { accessToken, refreshToken };
@@ -76,14 +76,12 @@ class Service {
         return { accessToken, refreshToken };
     }
     async refreshToken(body) {
-        const { refreshToken } = body;
-        //return error if refresh token isnt found
-        if (!refreshToken) throw new Error('BadRequest');
+        if (!body) throw new Error('BadRequest');
 
-        //else verify the current token
-        const userId = await verifyRefreshToken(refreshToken);
-        //if it passes then generate new tokens and send them to the user again
+        const userId = await verifyRefreshToken(body);
+
         const accessToken = setAccessToken(userId);
+
         const refToken = await setRefreshToken(userId);
 
         return { accessToken: accessToken, refreshToken: refToken };

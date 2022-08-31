@@ -56,13 +56,21 @@ class Service {
             },
         ];
 
-        return await Notes.aggregate(pipeline);
+        const result = await Notes.aggregate(pipeline);
+        console.log(result);
+        return result;
     }
     //LIST OF USERS
     async getListOfUsers(body) {
         //check if category name exists
-        const exists = await categories.find({ categoryName: body.name });
+        // const name = body.name.toString();
+
+        const exists = await categories.find({ categoryName: body });
         if (!exists) throw new Error('NotFound');
+        // let catn = '' + body.name;
+        // console.log(catn);
+        console.log('REQ BODY', body);
+        // return true;
 
         let pipeline = [
             {
@@ -74,46 +82,48 @@ class Service {
                     as: 'categoryID',
                 },
             },
-            //stage 2 checks all documents that match the input category name
-            { $match: { 'categoryID.categoryName': body.name } },
-            {
-                //we group by the specific category name
-                $group: {
-                    _id: '$categoryID._id',
-                    //save the category name
-                    name: { $first: '$categoryID.categoryName' },
-                    //push all the notes that fit the grouping inside the notes array
-                    notes: {
-                        $push: {
-                            noteID: '$_id',
-                            title: '$title',
-                            content: '$content',
-                        },
-                    },
-                    //add creatorid
-                    creatorID: { $first: '$creatorID' },
-                    //push user IIDs into the users array for unique elements and dont allow duplicates
-                    users: { $addToSet: '$creatorID' },
-                    //save category id
-                    categoryID: { $first: '$categoryID._id' },
-                },
-            },
-            {
-                $project: {
-                    //save name that is the only element in the array
-                    name: { $arrayElemAt: ['$name', 0] },
-                    //the total users wll be == to the number of ID elements inside the array
-                    totalUsers: { $size: '$users' },
-                    users: 1,
-                    //the number of notes will be equal to the number of elemnts inside the notes array
-                    totalNotes: { $size: '$notes' },
-                    notes: 1,
-                    _id: 0,
-                },
-            },
+            //     //stage 2 checks all documents that match the input category name
+            { $match: { 'categoryID.categoryName': body } },
+            //     {
+            //         //we group by the specific category name
+            //         $group: {
+            //             _id: '$categoryID._id',
+            //             //save the category name
+            //             name: { $first: '$categoryID.categoryName' },
+            //             //push all the notes that fit the grouping inside the notes array
+            //             notes: {
+            //                 $push: {
+            //                     noteID: '$_id',
+            //                     title: '$title',
+            //                     content: '$content',
+            //                 },
+            //             },
+            //             //add creatorid
+            //             creatorID: { $first: '$creatorID' },
+            //             //push user IIDs into the users array for unique elements and dont allow duplicates
+            //             users: { $addToSet: '$creatorID' },
+            //             //save category id
+            //             categoryID: { $first: '$categoryID._id' },
+            //         },
+            //     },
+            //     {
+            //         $project: {
+            //             //save name that is the only element in the array
+            //             name: { $arrayElemAt: ['$name', 0] },
+            //             //the total users wll be == to the number of ID elements inside the array
+            //             totalUsers: { $size: '$users' },
+            //             users: 1,
+            //             //the number of notes will be equal to the number of elemnts inside the notes array
+            //             totalNotes: { $size: '$notes' },
+            //             notes: 1,
+            //             _id: 0,
+            //         },
+            //     },
         ];
-
-        return await Notes.aggregate(pipeline);
+        console.log('PIPELINE: '.red.bold, pipeline);
+        const result = await Notes.aggregate(pipeline);
+        console.log('RESULT: '.green.bold, result);
+        return result;
     }
     //LIST USERS HOW MANY NOTES THEY CREATED
     async getNotesCreated() {

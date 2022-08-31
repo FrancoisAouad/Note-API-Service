@@ -15,14 +15,13 @@ class Controller {
 
     async deleteCategory(req, res, next) {
         try {
-            const result = await CategoryService.deleteCategory(
+            await CategoryService.deleteCategory(
                 req.params,
-                req.header.authorization
+                req.headers.authorization
             );
             res.status(200).json({
                 success: true,
                 messsage: 'Deleted Category!',
-                data: result,
             });
         } catch (e) {
             next(e);
@@ -31,7 +30,7 @@ class Controller {
     async addCategory(req, res, next) {
         try {
             const result = await CategoryService.addCategory(
-                req.header.authorization,
+                req.headers.authorization,
                 req.body
             );
             res.status(201).json({
@@ -45,8 +44,8 @@ class Controller {
     }
     async getCategories(req, res, next) {
         try {
-            const result = await CategoryService.getCategory(
-                req.header.authorization
+            const result = await CategoryService.getCategories(
+                req.headers.authorization
             );
             res.status(200).json({
                 success: true,
@@ -58,14 +57,10 @@ class Controller {
     }
     async editCategory(req, res, next) {
         try {
-            const result = await CategoryService.editCategory(
-                req.params,
-                req.body
-            );
+            await CategoryService.editCategory(req.params, req.body);
             res.status(200).json({
                 success: true,
                 messsage: 'Edited Category!',
-                data: result,
             });
         } catch (e) {
             next(e);
@@ -74,26 +69,26 @@ class Controller {
 
     initializeRoutes() {
         this.router.post(
-            `/${this.path}`,
+            `${this.path}`,
             verifyAccessToken,
             isEmailVerified,
             this.addCategory
         );
         this.router.get(
-            `/${this.path}`,
+            `${this.path}`,
             verifyAccessToken,
             isEmailVerified,
             this.getCategories
         );
         this.router.put(
-            `/${this.path}/:categoryId`,
+            `${this.path}/:categoryId`,
             verifyAccessToken,
             isEmailVerified,
             isCategoryPermitted,
             this.editCategory
         );
         this.router.delete(
-            `/${this.path}/:categoryId`,
+            `${this.path}/:categoryId`,
             verifyAccessToken,
             isEmailVerified,
             isCategoryPermitted,
